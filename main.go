@@ -19,21 +19,18 @@ func main() {
 	var conf = flag.String("conf", "./go-dash-button.ini", "Configuration file required for button events.")
 	flag.Parse()
 
-	if *conf == "" {
-		log.Printf("Please specify a config file to start.")
-		os.Exit(0)
-	}
+	if *conf != "" {
+		if _, err := os.Stat(*conf); os.IsNotExist(err) {
+			log.Printf("Can't find config file at: %s", *conf)
+			os.Exit(0)
+		}
 
-	if _, err := os.Stat(*conf); os.IsNotExist(err) {
-		log.Printf("Can't find config file at: %s", *conf)
-		os.Exit(0)
-	}
-
-	var err error
-	Config, err = ini.Load(*conf)
-	if err != nil {
-		log.Printf("Unable to parse config file.")
-		os.Exit(0)
+		var err error
+		Config, err = ini.Load(*conf)
+		if err != nil {
+			log.Printf("Unable to parse config file.")
+			os.Exit(0)
+		}
 	}
 
 	// Kick it off!
