@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	//"log"
 	"net/http"
-	//"strings"
+	"strings"
 )
 
 var HueBaseStationIP string
@@ -128,7 +128,10 @@ func HueSetLight(id string, options HueLightState) error {
 
 	defer resp.Body.Close()
 
-	// Eh, not worried about error checking just yet.
+	contents, _ := ioutil.ReadAll(resp.Body)
+	if strings.Contains(string(contents), "error") {
+		HueSetLight(id, options)
+	}
 
 	return nil
 }

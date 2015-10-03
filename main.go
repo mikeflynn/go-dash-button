@@ -53,7 +53,7 @@ func ToggleWorkshopLights() {
 				toggle = false
 			}
 
-			HueSetLight(k, HueLightState{On: toggle, Bri: 200})
+			go HueSetLight(k, HueLightState{On: toggle, Bri: 200})
 		}
 	}
 }
