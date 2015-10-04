@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
-	//"log"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -129,6 +129,9 @@ func HueSetLight(id string, options HueLightState) error {
 	defer resp.Body.Close()
 
 	contents, _ := ioutil.ReadAll(resp.Body)
+
+	log.Printf("HUE RESP: %v", string(contents))
+
 	if strings.Contains(string(contents), "error") {
 		HueSetLight(id, options)
 	}
