@@ -3,8 +3,8 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -123,7 +123,6 @@ func HueSetLight(id string, options HueLightState) error {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Printf("HUE ERROR: %v", err.Error())
 		return err
 	}
 
@@ -131,10 +130,8 @@ func HueSetLight(id string, options HueLightState) error {
 
 	contents, _ := ioutil.ReadAll(resp.Body)
 
-	log.Printf("HUE RESP: %v", string(contents))
-
 	if strings.Contains(string(contents), "error") {
-		HueSetLight(id, options)
+		return errors.New(string(contents))
 	}
 
 	return nil

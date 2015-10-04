@@ -53,7 +53,16 @@ func ToggleWorkshopLights() {
 				toggle = false
 			}
 
-			go HueSetLight(k, HueLightState{On: toggle, Bri: 200})
+			go func(idx string) {
+				for i := 0; i < 3; i++ {
+					err := HueSetLight(idx, HueLightState{On: toggle, Bri: 200})
+					if err != nil {
+						log.Printf("HUE ERROR: %v", err.Error())
+					} else {
+						break
+					}
+				}
+			}(k)
 		}
 	}
 }
