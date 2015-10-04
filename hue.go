@@ -123,6 +123,7 @@ func HueSetLight(id string, options HueLightState) error {
 
 	resp, err := client.Do(req)
 	if err != nil {
+		log.Printf("HUE ERROR: %v", err.Error())
 		return err
 	}
 
