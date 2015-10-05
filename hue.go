@@ -39,19 +39,6 @@ type HueLight struct {
 	} `json:"pointsymbol"`
 }
 
-type HueLightList struct {
-	One   HueLight `json:"1,omitempty"`
-	Two   HueLight `json:"2,omitempty"`
-	Three HueLight `json:"3,omitempty"`
-	Four  HueLight `json:"4,omitempty"`
-	Five  HueLight `json:"5,omitempty"`
-	Six   HueLight `json:"6,omitempty"`
-	Seven HueLight `json:"7,omitempty"`
-	Eight HueLight `json:"8,omitempty"`
-	Nine  HueLight `json:"9,omitempty"`
-	Ten   HueLight `json:"10,omitempty"`
-}
-
 func HueSetup(baseStationIP string, userName string) {
 	HueBaseStationIP = baseStationIP
 	HueUserName = userName
