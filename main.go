@@ -14,6 +14,8 @@ var Config *ini.File
 func main() {
 	// Define buttons and action function
 	DashMacs["74:75:48:10:33:ec"] = ToggleWorkshopLights
+	DashMacs["f0:27:2d:6d:aa:de"] = NoAction
+	DashMacs["74:75:48:68:5f:8c"] = NoAction
 
 	// Load config file
 	var conf = flag.String("conf", "./go-dash-button.ini", "Configuration file required for button events.")
@@ -35,6 +37,10 @@ func main() {
 
 	// Kick it off!
 	SnifferStart()
+}
+
+func NoAction() {
+	log.Println("No action on click.")
 }
 
 func ToggleWorkshopLights() {
