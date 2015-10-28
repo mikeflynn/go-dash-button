@@ -1,2 +1,4 @@
 go-dash-button
 *.ini
+
+!example.ini
