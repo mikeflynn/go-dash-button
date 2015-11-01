@@ -43,6 +43,14 @@ func NoAction() {
 	log.Println("No action on click.")
 }
 
+func ToggleMovieLights() {
+
+}
+
+func ToggleComputerLights() {
+
+}
+
 func ToggleWorkshopLights() {
 	HueSetup(Config.Section("hue").Key("baseStationIP").String(), Config.Section("hue").Key("baseStationUser").String())
 
@@ -52,13 +60,18 @@ func ToggleWorkshopLights() {
 		return
 	}
 
-	for k, v := range lights {
+	toggle := true
+
+	for _, v := range lights {
 		if strings.Contains(v.Name, "Workshop") {
-			toggle := true
 			if v.State.On {
 				toggle = false
 			}
+		}
+	}
 
+	for k, v := range lights {
+		if strings.Contains(v.Name, "Workshop") {
 			go func(idx string) {
 				for i := 0; i < 3; i++ {
 					err := HueSetLight(idx, HueLightState{On: toggle, Bri: 200})
