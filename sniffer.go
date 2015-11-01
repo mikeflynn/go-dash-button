@@ -14,6 +14,7 @@ import (
 //type fn func(string)
 
 var DashMacs = map[string]func(){}
+var State = map[string]bool{}
 
 func SnifferStart() {
 	// Get a list of all interfaces.
@@ -104,8 +105,13 @@ func readARP(handle *pcap.Handle, iface *net.Interface, stop chan struct{}) {
 
 			for mac, fn := range DashMacs {
 				if net.HardwareAddr(arp.SourceHwAddress).String() == mac {
-					log.Printf("Click sniffed for %v", mac)
-					fn()
+
+					if !State[mac] {
+						log.Printf("Click sniffed for %v", mac)
+						State[mac] = true
+						fn()
+						State[mac] = false
+					}
 
 					found = true
 				}

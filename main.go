@@ -95,40 +95,34 @@ func ToggleWorkshopConfig(config map[string]interface{}) {
 		if inConfig == false {
 			// Turn the front lights off and the back lights down to half brightness.
 			if strings.Contains(v.Name, "Workshop Front") {
-				go func(idx string) {
-					for i := 0; i < 3; i++ {
-						err := HueSetLight(idx, HueLightState{On: config["front_on"].(bool), Bri: config["front_bri"].(int)})
-						if err != nil {
-							log.Printf("HUE ERROR: %v", err.Error())
-						} else {
-							break
-						}
-					}
-				}(k)
-			} else if strings.Contains(v.Name, "Workshop Back") {
-				go func(idx string) {
-					for i := 0; i < 3; i++ {
-						err := HueSetLight(idx, HueLightState{On: config["back_on"].(bool), Bri: config["back_bri"].(int)})
-						if err != nil {
-							log.Printf("HUE ERROR: %v", err.Error())
-						} else {
-							break
-						}
-					}
-				}(k)
-			}
-		} else {
-			// Turn the lights back on with regular brightness.
-			go func(idx string) {
 				for i := 0; i < 3; i++ {
-					err := HueSetLight(idx, HueLightState{On: true, Bri: 200})
+					err := HueSetLight(k, HueLightState{On: config["front_on"].(bool), Bri: config["front_bri"].(int)})
 					if err != nil {
 						log.Printf("HUE ERROR: %v", err.Error())
 					} else {
 						break
 					}
 				}
-			}(k)
+			} else if strings.Contains(v.Name, "Workshop Back") {
+				for i := 0; i < 3; i++ {
+					err := HueSetLight(k, HueLightState{On: config["back_on"].(bool), Bri: config["back_bri"].(int)})
+					if err != nil {
+						log.Printf("HUE ERROR: %v", err.Error())
+					} else {
+						break
+					}
+				}
+			}
+		} else {
+			// Turn the lights back on with regular brightness.
+			for i := 0; i < 3; i++ {
+				err := HueSetLight(k, HueLightState{On: true, Bri: 200})
+				if err != nil {
+					log.Printf("HUE ERROR: %v", err.Error())
+				} else {
+					break
+				}
+			}
 		}
 	}
 }
@@ -155,16 +149,14 @@ func ToggleWorkshopLights() {
 
 	for k, v := range lights {
 		if strings.Contains(v.Name, "Workshop") {
-			go func(idx string) {
-				for i := 0; i < 3; i++ {
-					err := HueSetLight(idx, HueLightState{On: toggle, Bri: 200})
-					if err != nil {
-						log.Printf("HUE ERROR: %v", err.Error())
-					} else {
-						break
-					}
+			for i := 0; i < 3; i++ {
+				err := HueSetLight(k, HueLightState{On: toggle, Bri: 200})
+				if err != nil {
+					log.Printf("HUE ERROR: %v", err.Error())
+				} else {
+					break
 				}
-			}(k)
+			}
 		}
 	}
 }
