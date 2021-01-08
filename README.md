@@ -1,3 +1,8 @@
+## UPDATE - 2021.01.08: 
+_As the Amazon Dash Buttons have now been retired, I will be archiving this repo._
+
+_Original README follows..._
+
 # `go-dash-button`
 A server to handle Amazon Dash button actions; Written in golang
 
